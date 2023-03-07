@@ -41,7 +41,7 @@ async function requestSummary(diff, apiKey) {
 }
 
 async function fillComment(summary) {
-  const commentEl = document.querySelector("#new_comment_field");
+  const commentEl = document.getElementById("new_comment_field");
   commentEl.value = summary;
 
   const event = new InputEvent("change");
@@ -49,6 +49,7 @@ async function fillComment(summary) {
 }
 
 runEl.addEventListener("click", async () => {
+  runEl.setAttribute("disabled", "");
   try {
     const apiKey = inputEl.value;
     await chrome.storage.sync.set({ apiKey });
@@ -67,7 +68,6 @@ runEl.addEventListener("click", async () => {
     statusEl.innerText = "Requesting Summary...";
 
     const summary = await requestSummary(diff, apiKey);
-    // const summary = "asdasd";
 
     await chrome.scripting.executeScript({
       target: { tabId: tab.id },
@@ -79,6 +79,8 @@ runEl.addEventListener("click", async () => {
   } catch (err) {
     console.error(err);
     statusEl.innerText = "Error, check console.";
+  } finally {
+    runEl.removeAttribute("disabled");
   }
 });
 
