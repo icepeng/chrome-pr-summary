@@ -42,12 +42,12 @@ async function requestSummary(diff, apiKey) {
 
 async function fillComment(summary) {
   const commentEl = document.getElementById("new_comment_field");
+
+  commentEl.dispatchEvent(new InputEvent("focus"));
+
   commentEl.value = summary;
 
-  ["focus", "input"].forEach((e) => {
-    const event = new InputEvent(e);
-    commentEl.dispatchEvent(event);
-  });
+  commentEl.dispatchEvent(new InputEvent("input"));
 }
 
 runEl.addEventListener("click", async () => {
