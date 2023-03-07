@@ -44,8 +44,10 @@ async function fillComment(summary) {
   const commentEl = document.getElementById("new_comment_field");
   commentEl.value = summary;
 
-  const event = new InputEvent("change");
-  commentEl.dispatchEvent(event);
+  ["focus", "input"].forEach((e) => {
+    const event = new InputEvent(e);
+    commentEl.dispatchEvent(event);
+  });
 }
 
 runEl.addEventListener("click", async () => {
